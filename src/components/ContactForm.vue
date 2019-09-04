@@ -1,14 +1,14 @@
 <template>
   <div>
     <div>
-      <button type="button" class="btn btn-info" @click="openContactForm">Contact Me</button>
+      <button type="button" class="btn btn-info" @click="openForm=!openForm">Contact Me</button>
     </div>
       <br>
     <div class="container shadow-lg p-3 mb-5 bg-white rounded" v-if="openForm">
       <button type="button" class="close" aria-label="Close" @click="closeContactForm">
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
       </button>
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form @submit="onSubmit" @reset="onReset">
         <p>Remember: The fields with asteriks are mandatory.</p>
         <b-form-group id="contactNameGroup" label="Your Name*" label-for="contactName">
           <b-form-input
@@ -49,24 +49,29 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-form-group id="contactConsentGroup" label="Some Serious Stuff*" label-for="contactConsent">
-          <b-form-checkbox-group v-model="form.contactConsent" id="contactConsent">
-            <b-form-checkbox value="yes" required>
-              Dude, feel free to use my contact details to respond to my inquiry.
-            </b-form-checkbox>
-          </b-form-checkbox-group>
+        <b-form-group id="contactConsentGroup" label="Some Serious GDPR Stuff*" label-for="contactConsent">
+          <b-form-checkbox
+            id="contactConsent"
+            v-model="form.contactConsent" 
+            value="yes"
+            required
+          >
+            Dude, feel free to use my contact details to respond to my inquiry.
+          </b-form-checkbox>
         </b-form-group>
+        
+        <br>
 
         <div class="row d-flex justify-content-around">
           <b-button type="submit" variant="primary">
-            Submit <i class="material-icons md-18">send</i>
+            Submit <span aria-hidden="true"><i class="material-icons md-18">arrow_forward</i></span>
           </b-button>
           <b-button type="reset" variant="danger">
-            Reset <i class="material-icons md-18">cancel</i>
+            Reset <span aria-hidden="true"><i class="material-icons md-18">close</i></span>
           </b-button>
-          <button type="button" class="btn btn-info" @click="closeContactForm">
-            Close <i class="material-icons md-18">arrow_forward</i>
-          </button>
+          <b-button type="button" class="btn btn-info" aria-label="Close" @click="closeContactForm">
+            Close <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
+          </b-button>
         </div>
 
       </b-form>
@@ -89,14 +94,13 @@ export default {
         contactMessage: '',
         contactConsent: []
       },
-      show: true,
       openForm: false
     }
   },
   methods: {
-    openContactForm() {
-      this.openForm = true
-    },
+    // openContactForm() {
+    //   this.openForm = true
+    // },
     closeContactForm() {
       this.openForm = false
     },
