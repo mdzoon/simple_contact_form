@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div>
-      <button type="button" class="btn btn-info" @click="openForm=!openForm">Contact Me</button>
-    </div>
-      <br>
-    <div class="container shadow-lg p-3 mb-5 bg-white rounded" v-if="openForm">
+  <div id="contactForm" :class="{ 'form-opened shadow': openForm }">
+    <button type="button" class="btn btn-info btn-open rounded-top" :class="{ 'shadow': openForm }" @click="openForm=!openForm">Contact Me</button>
+    <div class="container border border-left-0 border-info p-3 mb-5 bg-white rounded-right">
       <button type="button" class="close" aria-label="Close" @click="closeContactForm">
         <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
       </button>
       <b-form @submit="onSubmit" @reset="onReset">
+        <br>
         <p>Remember: The fields with asteriks are mandatory.</p>
         <b-form-group id="contactNameGroup" label="Your Name*" label-for="contactName">
           <b-form-input
@@ -127,9 +125,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  $main-color: #17a2b8;
+  $form-width: 30vw;
+
   .material-icons.md-18 {
     font-size: 18px;
     vertical-align: text-bottom;
   }
+  #contactForm {
+    position: fixed;
+    top: 5vh;
+    left: -80vw;
+    width: 80vw;
+    transition: 1.5s all;
+    .btn-open {
+      position: absolute;
+      z-index: -1;
+      top: 20rem;
+      right: -2.15rem;
+      transform: rotate(-90deg) scale(-1) translate(-100%, -100%);
+      border-radius: unset;
+      &:hover, &:focus {
+        -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+      }
+    } 
+  }
+  #contactForm.form-opened {
+    left: 0;
+  }
 
+  @media (max-width: 767px) {
+  .d-flex {
+      flex-direction: column;
+      align-content: center;
+      min-height: 10rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #contactForm {
+      left: -80vw + $form-width;
+      width: 80vw - $form-width;
+    }
+  }
 </style>
