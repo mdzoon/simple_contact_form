@@ -125,8 +125,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  $main-color: #17a2b8;
-  $form-width: 30vw;
+  $color-info: #17a2b8;
+  $form-width: 80vw;
+  $size-adjustment: 30vw;
 
   .material-icons.md-18 {
     font-size: 18px;
@@ -134,10 +135,15 @@ export default {
   }
   #contactForm {
     position: fixed;
-    top: 5vh;
-    left: -80vw;
-    width: 80vw;
-    transition: 1.5s all;
+    top: 2vh;
+    left: -$form-width;
+    width: $form-width;
+    height: 96vh;
+    transition: 1.5s left ease-out;
+    .container {
+      height: 100%;
+      overflow-y: scroll;
+    }
     .btn-open {
       position: absolute;
       z-index: -1;
@@ -165,8 +171,8 @@ export default {
 
   @media (min-width: 768px) {
     #contactForm {
-      left: -80vw + $form-width;
-      width: 80vw - $form-width;
+      left: -$form-width + $size-adjustment;
+      width: $form-width - $size-adjustment;
     }
   }
 </style>
