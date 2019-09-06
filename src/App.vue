@@ -6,7 +6,7 @@
       <br><br><br>
       <h1>Simple Contact Form</h1>
       <br>
-      <h2>Vue.js CLI3, Bootstrap-vue.js, Bootstrap 4, SASS</h2>
+      <h2>Vue.js CLI3, Bootstrap-vue.js, Vuelidate, Bootstrap 4, SASS</h2>
       <br>
       <hr>
       <p>Press "Contact Me" button.</p>
