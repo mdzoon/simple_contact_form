@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div id="contactForm" :class="{ 'form-opened shadow': openForm }">
     <button type="button" class="btn btn-info btn-open rounded-top" :class="{ 'shadow': openForm }" @click="openForm=!openForm">Contact Me</button>
     <div class="container border border-left-0 border-info p-3 mb-5 bg-white rounded-right">
@@ -6,109 +6,116 @@
         <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
       </button>
       <b-form @submit="onSubmit" @reset="onReset">
-        <br>
-        <p>Remember: The fields with asteriks are mandatory.</p>
+        
+        <p class="mt-5">Remember: The fields with asteriks are mandatory.</p>
         
         <b-form-group
           id="contactNameGroup"
           label="Your Name*"
           label-for="contactName"
-          :class="{invalid: $v.form.contactName.$invalid}"> 
+          :class="{invalid: formSubmitted && $v.form.contactName.$invalid}"> 
           <b-form-input
             id="contactName"
-            v-model="form.contactName"
-            @blur="$v.form.contactName.$touch()"
-            required
+            v-model="$v.form.contactName.$model"
             placeholder="Enter name"
+            aria-describedby=""
           ></b-form-input>
-          <p>{{ $v.form.contactName }}</p>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactName.required">This field shoud not be empty!</b-alert>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactName.minLength">
-            Your name must have at least {{$v.form.contactName.$params.minLength.min}} letters.
-          </b-alert>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactName.required">
+            This field shoud not be empty!
+          </p>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactName.minLength">
+            Your name must contain at least {{$v.form.contactName.$params.minLength.min}} letters.
+          </p>
         </b-form-group>
 
         <b-form-group
           id="contactEmailGroup"
           label="Email address*"
           label-for="contactEmail"
-          :class="{invalid: $v.form.contactEmail.$invalid}">
+          :class="{invalid: formSubmitted && $v.form.contactEmail.$invalid}">
           <b-form-input
             id="contactEmail"
-            v-model="form.contactEmail"
+            v-model="$v.form.contactEmail.$model"
             type="email"
-            required
             placeholder="Enter email"
           ></b-form-input>
-          <p>{{ $v.form.contactEmail }}</p>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactEmail.required">This field shoud not be empty!</b-alert>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactEmail.email">
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactEmail.required">
+            This field shoud not be empty!
+          </p>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactEmail.email">
             Please provide valid email!
-          </b-alert>
+          </p>
         </b-form-group>
 
         <b-form-group
           id="contactPhoneGroup"
           label="Phone Number"
           label-for="contactPhone"
-          :class="{invalid: $v.form.contactPhone.$invalid}">
+          :class="{invalid: formSubmitted && $v.form.contactPhone.$invalid}">
           <b-form-input
             id="contactPhone"
-            v-model="form.contactPhone"
+            v-model="$v.form.contactPhone.$model"
             type="tel"
             placeholder="Enter phone number"
           ></b-form-input>
-          <p>{{ $v.form.contactPhone }}</p>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactPhone.numeric">Please enter numbers!</b-alert>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactPhone.numeric">
+            Please enter only numbers!
+          </p>
         </b-form-group>
 
         <b-form-group
           id="contactMessageGroup"
           label="Your Message*"
           label-for="contactMessage"
-          :class="{invalid: $v.form.contactMessage.$invalid}">
+          :class="{invalid: formSubmitted && $v.form.contactMessage.$invalid}">
           <b-form-textarea
             id="contactMessage"
-            v-model="form.contactMessage"
-            required
+            v-model="$v.form.contactMessage.$model"
             placeholder="Enter here your message..."
             rows="3"
             max-rows="6"
           ></b-form-textarea>
-          <p>{{ $v.form.contactMessage }}</p>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactMessage.required">This field shoud not be empty!</b-alert>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactMessage.minLength">
-            Your name must have at least {{$v.form.contactMessage.$params.minLength.min}} letters.
-          </b-alert>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactMessage.required">
+            This field shoud not be empty!
+          </p>
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactMessage.minLength">
+            Your name must have at least {{$v.form.contactMessage.$params.minLength.min}} characters.
+          </p>
         </b-form-group>
 
         <b-form-group id="contactConsentGroup" label="Some Serious GDPR Stuff*" label-for="contactConsent">
           <b-form-checkbox
             id="contactConsent"
-            v-model="form.contactConsent" 
-            value="yes"
-            required
+            v-model="$v.form.contactConsent.$model"
+            name="consent"
+            :class="{invalid: formSubmitted && $v.form.contactConsent.$invalid}"
           >
             Dude, feel free to use my contact details to respond to my inquiry.
           </b-form-checkbox>
-          <p>{{ $v.form.contactConsent }}</p>
-          <b-alert class="mt-1" variant="danger" :show="!$v.form.contactConsent.required">
-            Please confirm you are happy to leave us your details!
-          </b-alert>          
+          <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactConsent.$model">
+            Please confirm you want us to contact you!
+          </p>         
         </b-form-group>
         
         <br>
 
-        <div class="row d-flex justify-content-around">
-          <b-button type="submit" variant="primary">
-            Submit <span aria-hidden="true"><i class="material-icons md-18">arrow_forward</i></span>
-          </b-button>
-          <b-button type="reset" variant="danger">
-            Reset <span aria-hidden="true"><i class="material-icons md-18">close</i></span>
-          </b-button>
-          <b-button type="button" class="btn btn-info" aria-label="Close" @click="closeContactForm">
-            Close <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
-          </b-button>
+        <div>
+          <div class="row justify-content-around">
+            <b-button type="submit" variant="primary">
+              Submit <span aria-hidden="true"><i class="material-icons md-18">arrow_forward</i></span>
+            </b-button>
+            <b-button type="reset" variant="danger">
+              Reset <span aria-hidden="true"><i class="material-icons md-18">close</i></span>
+            </b-button>
+            <b-button type="button" class="btn btn-info" aria-label="Close" @click="closeContactForm">
+              Close <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
+            </b-button>
+          </div>
+          <div class="mt-3">
+            <p class="alert alert-success" role="alert" v-if="submitStatus === 'OK'">Thank you for your submission!</p>
+            <p class="alert alert-danger" role="alert" v-if="submitStatus === 'ERROR'">Please fill in the form correctly.</p>
+            <p class="alert alert-info" role="alert" v-if="submitStatus === 'PENDING'">Sending...</p>
+          </div>          
         </div>
 
       </b-form>
@@ -131,9 +138,11 @@ export default {
         contactEmail: '',
         contactPhone: '',
         contactMessage: '',
-        contactConsent: ''
+        contactConsent: false
       },
-      openForm: false
+      openForm: false,
+      submitStatus: '',
+      formSubmitted: false
     }
   },
   methods: {
@@ -143,9 +152,25 @@ export default {
     closeContactForm() {
       this.openForm = false
     },
+    setContactName(value) {
+      this.contactName = value
+    },
     onSubmit (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.form))
+      console.log(this.$v.form.contactName)
+      this.$v.form.$touch()
+      if (this.$v.form.$invalid || !this.$v.form.contactConsent.$model) {
+        this.submitStatus = 'ERROR'
+        this.formSubmitted = true
+        return
+      } else {
+        // do your submit logic here
+        this.submitStatus = 'PENDING'
+        setTimeout(() => {
+          this.submitStatus = 'OK'
+          alert(JSON.stringify(this.form))
+        }, 500)
+      }
     },
     onReset (evt) {
       evt.preventDefault()
@@ -239,7 +264,6 @@ export default {
       width: $form-width - $size-adjustment;
     }
   }
-
   .alert {
     font-size: .75rem;
     padding: .375rem .75rem;

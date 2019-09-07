@@ -5,6 +5,7 @@
       <img alt="Vue logo" src="./assets/logo.png">
       <br><br><br>
       <h1>Simple Contact Form</h1>
+      <p>Validation on submit()</p>
       <br>
       <h2>Vue.js CLI3, Bootstrap-vue.js, Vuelidate, Bootstrap 4, SASS</h2>
       <br>
