@@ -6,14 +6,14 @@
         <span aria-hidden="true"><i class="material-icons md-18">cancel</i></span>
       </button>
       <b-form @submit="onSubmit" @reset="onReset">
-        
+
         <p class="mt-5">Remember: The fields with asteriks are mandatory.</p>
-        
+
         <b-form-group
           id="contactNameGroup"
           label="Your Name*"
           label-for="contactName"
-          :class="{invalid: formSubmitted && $v.form.contactName.$invalid}"> 
+          :class="{invalid: formSubmitted && $v.form.contactName.$invalid}">
           <b-form-input
             id="contactName"
             v-model="$v.form.contactName.$model"
@@ -94,9 +94,9 @@
           </b-form-checkbox>
           <p class="alert alert-danger mt-1" role="alert" v-if="formSubmitted && !$v.form.contactConsent.$model">
             Please confirm you want us to contact you!
-          </p>         
+          </p>
         </b-form-group>
-        
+
         <br>
 
         <div>
@@ -115,7 +115,7 @@
             <p class="alert alert-success" role="alert" v-if="submitStatus === 'OK'">Thank you for your submission!</p>
             <p class="alert alert-danger" role="alert" v-if="submitStatus === 'ERROR'">Please fill in the form correctly.</p>
             <p class="alert alert-info" role="alert" v-if="submitStatus === 'PENDING'">Sending...</p>
-          </div>          
+          </div>
         </div>
 
       </b-form>
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { required, minLength, email, numeric } from 'vuelidate/lib/validators';
+import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ContactForm',
@@ -149,10 +149,10 @@ export default {
     // openContactForm() {
     //   this.openForm = true
     // },
-    closeContactForm() {
+    closeContactForm () {
       this.openForm = false
     },
-    setContactName(value) {
+    setContactName (value) {
       this.contactName = value
     },
     onSubmit (evt) {
@@ -162,7 +162,6 @@ export default {
       if (this.$v.form.$invalid || !this.$v.form.contactConsent.$model) {
         this.submitStatus = 'ERROR'
         this.formSubmitted = true
-        return
       } else {
         // do your submit logic here
         this.submitStatus = 'PENDING'
@@ -244,7 +243,7 @@ export default {
         -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
       }
-    } 
+    }
   }
   #contactForm.form-opened {
     left: 0;
